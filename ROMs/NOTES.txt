@@ -1,0 +1,35 @@
+              NOTES
+
+These are notes for the ROM files and tools in this directory.
+
+ROM images from PRISM card:
+
+swe1_u100.rom - lower 16, appears to start with a BIOS option ROM image 55AA
+swe1_u101.rom - upper 16, appears to start with a BIOS option ROM image
+swe1_u102.rom
+swe1_u103.rom
+swe1_u104.rom
+swe1_u105.rom
+swe1_u106.rom
+swe1_u107.rom
+
+awdbios.bin - I guess this is the motherboards bios
+
+rom0 - first two ROMs merged for 32 bit width.
+rom1 - second two ROMs merged for 32 bit width.
+rom2 - third two ROMs merged for 32 bit width.
+rom3 - fourth two ROMs merged for 32 bit width.
+
+pb2k.rom - All merged rom files cat'd together.
+
+bios.rom - First 20480 bytes split from pb2k.rom
+system.rom - remaining part of the ROM image
+
+              TOOLS
+              =====
+combine2.py - Merge all the rom files together into one
+cut.py - cut the pb2k.py into pieces, produces the bios.rom and the system.rom
+files
+
+
+
