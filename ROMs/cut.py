@@ -6,13 +6,14 @@ import numpy as np
 
 full = np.fromfile('pb2k.rom',dtype=np.uint8)
 
-system_size = full.size - 0x5000
+expansion_size = 0x40 * 512
+system_size = full.size - expansion_size
 
-bios = np.empty((0x5000,),dtype=np.uint8)
+bios = np.empty((expansion_size,),dtype=np.uint8)
 system = np.empty((system_size,),dtype=np.uint8)
 
 yy = 0
-for x in range(0,0x5000):
+for x in range(0,expansion_size):
 
   bios[yy] = full[x]
 
@@ -21,7 +22,7 @@ for x in range(0,0x5000):
 bios.tofile('bios.rom')
 
 yy = 0
-for x in range(0x5000,system_size):
+for x in range(expansion_size,system_size):
 
   system[yy] = full[x]
 
