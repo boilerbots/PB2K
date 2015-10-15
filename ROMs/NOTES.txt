@@ -24,6 +24,7 @@ pb2k.rom - All merged rom files cat'd together.
 
 bios.rom - First 20480 bytes split from pb2k.rom
 system.rom - remaining part of the ROM image
+bios_dump.bin - retrieved this from the Prism card through the /sys rom interface (see decode below)
 
               TOOLS
               =====
@@ -31,5 +32,48 @@ combine2.py - Merge all the rom files together into one
 cut.py - cut the pb2k.py into pieces, produces the bios.rom and the system.rom
 files
 
+              MEMORY MAP
+              ----------
+
+The following was dumped from the PCI card:
+
+05:03.0 VGA compatible controller: Williams Electronics Games, Inc. Device 0001 (rev 02) (prog-if 00 [VGA controller])
+	Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Region 0: Memory at fd7ff000 (32-bit, non-prefetchable) [disabled] [size=128]
+	Region 2: Memory at fd7c0000 (32-bit, non-prefetchable) [disabled] [size=128K]
+	Region 3: Memory at fc800000 (32-bit, non-prefetchable) [disabled] [size=8M]
+	Region 4: Memory at fd7f0000 (32-bit, non-prefetchable) [disabled] [size=32K]
+	Region 5: Memory at f4000000 (32-bit, prefetchable) [disabled] [size=64M]
+	[virtual] Expansion ROM at fd000000 [disabled] [size=32K]
+
+Using fcode-utils and examing the bios_dump.bin file I get:
+
+romheaders ./bios_dump.bin
+
+Image 1:
+PCI Expansion ROM Header:
+  Signature: 0x55aa (Ok)
+  CPU unique data: 0x40 0xeb 0x15 0xf9 0x30 0x30 0x30 0x30
+                   0x30 0x30 0x30 0x30 0x30 0x30 0x30 0x30
+  Pointer to PCI Data Structure: 0x05e4
+
+PCI Data Structure:
+  Signature: 0x50434952 'PCIR' (Ok)
+  Vendor ID: 0x146e
+  Device ID: 0x0001
+  Vital Product Data:  0x0000
+  PCI Data Structure Length: 0x0018 (24 bytes)
+  PCI Data Structure Revision: 0x00
+  Class Code: 0x030000 (VGA Display controller)
+  Image Length: 0x0040 blocks (32768 bytes)
+  Revision Level of Code/Data: 0x0000
+  Code Type: 0x00 (Intel x86)
+  Last-Image Flag: 0x80 (last image in rom)
+  Reserved: 0x0000
+
+Platform specific data for x86 compliant option rom:
+  Initialization Size: 0x40 (32768 bytes)
+  Entry point for INIT function: 0x1a
 
 
